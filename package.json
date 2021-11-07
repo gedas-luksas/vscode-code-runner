@@ -51,6 +51,14 @@
         }
       },
       {
+        "command": "code-runner.stopInTerminal",
+        "title": "Stop Code Run (terminal)",
+        "icon": {
+          "light": "./images/stop-light.svg",
+          "dark": "./images/stop-dark.svg"
+        }
+      },
+      {
         "command": "code-runner.runCustomCommand",
         "title": "Run Custom Command"
       },
@@ -109,6 +117,11 @@
         {
           "when": "config.code-runner.showStopIconInEditorTitleMenu && code-runner.codeRunning",
           "command": "code-runner.stop",
+          "group": "navigation"
+        },
+        {
+          "when": "config.code-runner.showStopIconInEditorTitleMenu && code-runner.codeRunningInTerminal",
+          "command": "code-runner.stopInTerminal",
           "group": "navigation"
         }
       ],

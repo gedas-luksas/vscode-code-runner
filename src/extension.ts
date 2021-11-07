@@ -14,6 +14,10 @@ export function activate(context: vscode.ExtensionContext) {
         codeManager.run(null, fileUri);
     });
 
+    const stopInTerminal = vscode.commands.registerCommand("code-runner.stopInTerminal", (fileUri: vscode.Uri) => {
+        codeManager.stopExecuteCommandInTerminal();
+    });
+
     const runCustomCommand = vscode.commands.registerCommand("code-runner.runCustomCommand", () => {
         codeManager.runCustomCommand();
     });
@@ -30,6 +34,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(runCustomCommand);
     context.subscriptions.push(runByLanguage);
     context.subscriptions.push(stop);
+    context.subscriptions.push(stopInTerminal);
     context.subscriptions.push(codeManager);
 }
 

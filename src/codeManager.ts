@@ -435,7 +435,19 @@ export class CodeManager implements vscode.Disposable {
         return `/mnt/${p1.toLowerCase()}/`;
     }
 
+    public async stopExecuteCommandInTerminal() {
+        if (!this._terminal) {
+            return;
+        }
+
+        vscode.commands.executeCommand("setContext", "code-runner.codeRunningInTerminal", false);
+        this._terminal.dispose();
+        //this._terminal.sendText("CTRL + C");
+    }
+
     private async executeCommandInTerminal(executor: string, appendFile: boolean = true) {
+        vscode.commands.executeCommand("setContext", "code-runner.codeRunningInTerminal", true);
+
         let isNewTerminal = false;
         if (this._terminal === null) {
             this._terminal = vscode.window.createTerminal("Code");
@@ -485,6 +497,7 @@ export class CodeManager implements vscode.Disposable {
         this._process.on("close", (code) => {
             this._isRunning = false;
             vscode.commands.executeCommand("setContext", "code-runner.codeRunning", false);
+            vscode.commands.executeCommand("setContext", "code-runner.codeRunningInTerminal", false);
             const endTime = new Date();
             const elapsedTime = (endTime.getTime() - startTime.getTime()) / 1000;
             this._outputChannel.appendLine("");
