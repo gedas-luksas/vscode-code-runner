@@ -441,8 +441,12 @@ export class CodeManager implements vscode.Disposable {
         }
 
         vscode.commands.executeCommand("setContext", "code-runner.codeRunningInTerminal", false);
-        this._terminal.dispose();
-        //this._terminal.sendText("CTRL + C");
+
+        // Focus the current temrinal.
+        this._terminal.show();
+
+        // Send Ctrl + C sequence to the focused terminal.
+        await vscode.commands.executeCommand("workbench.action.terminal.sendSequence", { text: "\x03" });
     }
 
     private async executeCommandInTerminal(executor: string, appendFile: boolean = true) {
